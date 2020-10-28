@@ -93,6 +93,81 @@ var range = function(x, y) {
 // exponent(4,3); // 64
 // https://www.khanacademy.org/computing/computer-science/algorithms/recursive-algorithms/a/computing-powers-of-a-number
 var exponent = function(base, exp) {
+  if (exp === 0) {
+    return 1;
+  }
+  var dividePrecisely = function(dividend, divisor) {
+    var quotientLeft = (dividend / divisor).toString();
+    var trimDecimal = function(numString) {
+      if (numString.indexOf('.') !== -1) {
+        numString = numString.slice(0, numString.indexOf('.'));
+      }
+      return numString;
+    };
+    quotientLeft = trimDecimal(quotientLeft);
+    var quotientRight = ((dividend * 1000000) / divisor).toString();
+    quotientRight = trimDecimal(quotientRight);
+    while (quotientRight.endsWith('0')) {
+      quotientRight = quotientRight.slice(0, quotientRight.length - 1);
+    }
+    if (quotientLeft !== '0') {
+      quotientRight = quotientRight.slice(quotientLeft.length);
+    }
+    var quotient;
+    if (quotientRight === '') {
+      quotient = quotientLeft;
+    } else {
+      quotient = quotientLeft + '.' + quotientRight;
+    }
+    return Number(quotient);
+  };
+  var multiplyPrecisely = function(multiplier, multiplicand) {
+    var precisionEnhancer = 100000;
+    var calculatePrecisionReduction = function(num) {
+      var numString = num.toString();
+      if (numString.indexOf('.') !== -1) {
+        return numString.slice(numString.indexOf('.') + 1).length;
+      } else {
+        return 0;
+      }
+    };
+    var precisionReduction = calculatePrecisionReduction(multiplier) + calculatePrecisionReduction(multiplicand);
+    var origPrecisionLevel = (precisionEnhancer.toString().length - 1) * 2;
+    var adjPrecisionLevel = origPrecisionLevel - precisionReduction;
+    multiplier *= precisionEnhancer;
+    multiplicand *= precisionEnhancer;
+    var product = (multiplier * multiplicand).toString();
+    var productLeft;
+    if (product.length <= origPrecisionLevel) {
+      productLeft = '0';
+    } else {
+      productLeft = product.slice(0, product.length - origPrecisionLevel);
+      product = product.slice(-1 * origPrecisionLevel);
+    }
+    var productRight = product;
+    while (adjPrecisionLevel > 0) {
+      productRight = productRight.slice(0, productRight.length - 1);
+      adjPrecisionLevel--;
+    }
+    var decimalAdjustment = precisionReduction - productRight.length;
+    while (decimalAdjustment > 0) {
+      productRight = '0' + productRight;
+      decimalAdjustment--;
+    }
+    product = productLeft + '.' + productRight;
+    while (product.charAt(product.length - 1) === '0') {
+      product = product.slice(0, product.length - 1);
+    }
+    if (product.charAt(product.length - 1) === '.') {
+      product = product.slice(0, product.length - 1);
+    }
+    return Number(product);
+  };
+  if (exp < 0) {
+    return multiplyPrecisely(dividePrecisely(1, base), exponent(base, exp + 1));
+  } else {
+    return base * exponent(base, exp - 1);
+  }
 };
 
 // 8. Determine if a number is a power of two.
