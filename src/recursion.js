@@ -214,6 +214,16 @@ var to2ndPower = function(n) {
 
 // 9. Write a function that reverses a string.
 var reverse = function(string) {
+  // Base case
+  if (Array.isArray(string)) {
+    var reversed = [];
+    for (var letter = string.length - 1; letter >= 0; letter--) {
+      reversed.push(string[letter]);
+    }
+    return reversed.join('');
+  }
+  // Recursion case
+  return reverse(string.split(''));
 };
 
 // 10. Write a function that determines if a string is a palindrome.
