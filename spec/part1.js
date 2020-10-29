@@ -493,6 +493,55 @@
 
 
 
+    describe('8.5 Raised to the 2nd Power', function() {
+      var originalTo2ndPower;
+
+      before(function() {
+        originalTo2ndPower = to2ndPower;
+        to2ndPower = sinon.spy(to2ndPower);
+      });
+
+      afterEach(function() {
+        to2ndPower.reset();
+      });
+
+      after(function() {
+        to2ndPower = originalTo2ndPower;
+      });
+
+      it('should return a boolean', function() {
+        expect(to2ndPower(5)).to.be.a('boolean');
+        expect(to2ndPower(8)).to.be.a('boolean');
+      });
+
+      it('should return true for powers of two', function() {
+        expect(to2ndPower(1)).to.be.true;
+        expect(to2ndPower(4)).to.be.true;
+        expect(to2ndPower(121)).to.be.true;
+      });
+
+      it('should return false when input is not power of two', function() {
+        expect(to2ndPower(0)).to.be.false;
+        expect(to2ndPower(10)).to.be.false;
+        expect(to2ndPower(270)).to.be.false;
+      });
+
+      it('should use recursion by calling self', function() {
+        to2ndPower(16);
+        expect(to2ndPower.callCount).to.be.above(1);
+      });
+
+      it('should be invoked with one argument', function() {
+        to2ndPower(16);
+        to2ndPower.args.forEach(arg => {
+          expect(arg).to.have.length(1);
+        });
+      });
+
+    });
+
+
+
     describe('9. Reverse String', function() {
       var originalReverse;
 

@@ -177,6 +177,31 @@ var exponent = function(base, exp) {
 var powerOfTwo = function(n) {
 };
 
+// 8.5 Determine if a number is a number that has been raised to the 2nd power.
+// powerOfTwo(1); // true
+// powerOfTwo(16); // true
+// powerOfTwo(10); // false
+var to2ndPower = function(n) {
+  if ((n / 1) === 1) {
+    return true;
+  } else if (n < 4) {
+    return false;
+  }
+  var sequencer = 1;
+  var findSequencer = function(sequencer) {
+    if (!((n - (2 * (sequencer + 1)) - 1) >= ((sequencer + 1) * (sequencer + 1)))) {
+      return sequencer;
+    }
+    return findSequencer(sequencer + 1);
+  };
+  sequencer = findSequencer(sequencer);
+  if ((n - (2 * sequencer) - 1) === (sequencer * sequencer)) {
+    return to2ndPower(n - (2 * sequencer) - 1);
+  } else {
+    return to2ndPower(n - (n * sequencer));
+  }
+};
+
 // 9. Write a function that reverses a string.
 var reverse = function(string) {
 };
