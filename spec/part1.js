@@ -493,7 +493,7 @@
 
 
 
-    describe('8.5 Raised to the 2nd Power', function() {
+    describe('8.5. Raised to the 2nd Power', function() {
       var originalTo2ndPower;
 
       before(function() {
