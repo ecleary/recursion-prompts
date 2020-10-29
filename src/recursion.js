@@ -214,7 +214,6 @@ var to2ndPower = function(n) {
 
 // 9. Write a function that reverses a string.
 var reverse = function(string) {
-  // Base case
   if (Array.isArray(string)) {
     var reversed = [];
     for (var letter = string.length - 1; letter >= 0; letter--) {
@@ -222,12 +221,28 @@ var reverse = function(string) {
     }
     return reversed.join('');
   }
-  // Recursion case
   return reverse(string.split(''));
 };
 
 // 10. Write a function that determines if a string is a palindrome.
 var palindrome = function(string) {
+  if (Array.isArray(string)) {
+    var reversed = [];
+    for (var letter = string.length - 1; letter >= 0; letter--) {
+      reversed.push(string[letter]);
+    }
+    reversed = reversed.join('');
+    string = string.join('');
+    return reversed === string;
+  }
+  string = string.toLowerCase();
+  var stringWithoutSpaces = '';
+  for (var i = 0; i < string.length; i++) {
+    if (string[i] !== ' ') {
+      stringWithoutSpaces += string.slice(i, i + 1);
+    }
+  }
+  return palindrome(stringWithoutSpaces.split(''));
 };
 
 // 11. Write a function that returns the remainder of x divided by y without using the
